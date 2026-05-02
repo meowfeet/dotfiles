@@ -20,8 +20,6 @@
     config.common.default = [ "hyprland" "gtk" ];
   };
 
-  hm.dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-
   hm.programs.kitty.enable = true;
 
   hm.wayland.windowManager.hyprland = {

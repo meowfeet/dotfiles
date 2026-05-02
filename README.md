@@ -23,37 +23,3 @@
   ```sh
   reboot
   ```
-
----
-
-## Structure
-
-- Rarely changed
-
-  ```text
-  /core
-  ```
-
-- Personal
-
-  ```text
-  /profile
-  ```
-
-- Commands
-
-  ```text
-  /scripts
-  ```
-
-- Entry point
-
-  ```text
-  /flake.nix
-  ```
-
-- Settings
-
-  ```text
-  /settings.nix
-  ```

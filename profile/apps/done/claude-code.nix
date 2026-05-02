@@ -5,7 +5,6 @@
     enable = true;
 
     settings = {
-      theme = "dark";
       skipDangerousModePermissionPrompt = true;
     };
   };

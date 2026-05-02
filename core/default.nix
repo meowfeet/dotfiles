@@ -1,18 +1,13 @@
-{ user, ... }:
+{ ... }:
 
 {
   imports = [
-    ./audio
+    ./apps
+    ./audio.nix
     ./hardware
-    ./network
-    ./nix
-    ./persistence
-    ./security
-    ./user
+    ./network.nix
+    ./nix.nix
+    ./persistence.nix
+    ./user.nix
   ];
-
-  i18n.defaultLocale = user.locale;
-  time.timeZone = user.timeZone;
-
-  programs.dconf.enable = true;
 }

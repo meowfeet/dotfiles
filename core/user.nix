@@ -1,6 +1,9 @@
 { lib, user, ... }:
 
 {
+  i18n.defaultLocale = user.locale;
+  time.timeZone = user.timeZone;
+
   users.users.${user.name} = {
     isNormalUser = true;
 
@@ -10,4 +13,5 @@
   };
 
   users.mutableUsers = false;
+  security.sudo.wheelNeedsPassword = false;
 }

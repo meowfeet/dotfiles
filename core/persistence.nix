@@ -13,13 +13,5 @@
     files = [
       "/etc/machine-id" # identity for apps/services
     ];
-
-    # critical shared paths most tools expect
-    users.${user.name} = {
-      directories = [
-        { directory = ".local/share/keyrings"; mode = "0700"; }
-        { directory = ".ssh"; mode = "0700"; }
-      ];
-    };
   };
 }

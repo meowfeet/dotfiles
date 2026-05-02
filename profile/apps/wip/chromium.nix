@@ -45,6 +45,10 @@
     };
   };
 
+  persist.directories = [
+    { directory = ".config/chromium/Default"; mode = "0700"; }
+  ];
+
   xdg.mime = {
     enable = true;
     defaultApplications = lib.genAttrs [
@@ -53,8 +57,4 @@
       "x-scheme-handler/https"
     ] (_: "chromium-browser.desktop");
   };
-
-  persist.directories = [
-    { directory = ".config/chromium/Default"; mode = "0700"; }
-  ];
 }
