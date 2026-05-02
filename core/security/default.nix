@@ -15,4 +15,6 @@
       UserKnownHostsFile /dev/null
       LogLevel ERROR
   '';
+
+  services.gnome.gnome-keyring.enable = true;
 }

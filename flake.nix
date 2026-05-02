@@ -33,6 +33,12 @@
         modules = [
           home-manager.nixosModules.default
           (nixpkgs.lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" user.name ])
+          (nixpkgs.lib.mkAliasOptionModule [ "persist" ] [ "environment" "persistence" user.persistPath "users" user.name ])
+          ({ config, ... }: {
+            _module.args.user = user // {
+              group = config.users.users.${user.name}.group;
+            };
+          })
           impermanence.nixosModules.impermanence
           ./core
           ./hardware-configuration.nix

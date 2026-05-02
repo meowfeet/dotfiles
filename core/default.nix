@@ -13,4 +13,6 @@
 
   i18n.defaultLocale = user.locale;
   time.timeZone = user.timeZone;
+
+  programs.dconf.enable = true;
 }

@@ -1,4 +1,4 @@
-{ user, ... }:
+{ pkgs, user, ... }:
 
 {
   programs.hyprland = {
@@ -13,6 +13,14 @@
       user = user.name;
     };
   };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = [ "hyprland" "gtk" ];
+  };
+
+  hm.dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
   hm.programs.kitty.enable = true;
 
