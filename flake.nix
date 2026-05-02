@@ -32,6 +32,7 @@
 
         modules = [
           home-manager.nixosModules.default
+          (nixpkgs.lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" user.name ])
           impermanence.nixosModules.impermanence
           ./core
           ./hardware-configuration.nix
@@ -49,7 +50,6 @@
               users.${user.name} =
                 { osConfig, ... }:
                 {
-                  programs.home-manager.enable = true;
                   home.stateVersion = osConfig.system.stateVersion;
                 };
             };
