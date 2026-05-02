@@ -49,5 +49,11 @@
 - Entry point
 
   ```text
-  /configuration.nix
+  /flake.nix
+  ```
+
+- Settings
+
+  ```text
+  /settings.nix
   ```

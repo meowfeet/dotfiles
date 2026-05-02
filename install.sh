@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export NIX_CONFIG="experimental-features = nix-command flakes"
+
 git clone https://github.com/meowfeet/dotfiles.git /tmp/nixos
-git -C /tmp/nixos remote set-url origin git@github.com:meowfeet/dotfiles.git
+git -C /tmp/nixos remote set-url --push origin git@github.com:meowfeet/dotfiles.git
 rm -f /tmp/nixos/hardware-configuration.nix
 
 if [[ "$1" == /dev/nvme* ]]; then
@@ -43,13 +45,10 @@ ln -s ../persist/etc/nixos /mnt/etc/nixos
 mkdir -p /mnt/persist/.permissions
 touch /mnt/persist/.permissions/save
 
-nix-channel --add https://channels.nixos.org/nixos-unstable nixos
-nix-channel --update
-
-nixos-generate-config --root /mnt
-
 hardware=/mnt/etc/nixos/hardware-configuration.nix
-version="$(nix-instantiate --eval --raw '<nixpkgs/nixos>' -A config.system.nixos.release)"
+nixos-generate-config --root /mnt --show-hardware-config > "$hardware"
+
+version="$(nix eval --no-write-lock-file --raw /mnt/etc/nixos#nixosConfigurations.nixos.config.system.nixos.release)"
 
 sed -i \
   -e '/fsType = "tmpfs";/a options = [ "mode=755" ];' \
@@ -60,8 +59,8 @@ sed -i \
   -e "/^}/i system.stateVersion = \"$version\";" \
   "$hardware"
 
-nix-shell -p nixfmt --run "nixfmt $hardware"
-nixos-install --root /mnt --no-root-passwd
+nix shell nixpkgs#nixfmt -c nixfmt "$hardware"
+nixos-install --no-write-lock-file --no-channel-copy --root /mnt --flake /mnt/etc/nixos#nixos --no-root-passwd
 
-name="$(nix-instantiate --eval --raw /mnt/etc/nixos/settings.nix -A name)"
+name="$(nix eval --raw --file /mnt/etc/nixos/settings.nix name)"
 chown -R --reference="/mnt/home/$name" /mnt/persist/etc/nixos

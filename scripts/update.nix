@@ -1,18 +1,23 @@
 {
   config,
+  lib,
   pkgs,
   user,
   ...
 }:
 
 let
+  file = lib.removeSuffix ".nix" (builtins.baseNameOf __curPos.file);
+  script = "${user.scriptPrefix}-${file}";
+  service = "${script}-cleanup";
+
   perms = "${user.persistPath}/.permissions";
 in
 {
   system.tools.nixos-rebuild.enable = false;
 
   environment.systemPackages = [
-    (pkgs.writeShellScriptBin "${user.scriptPrefix}-update" ''
+    (pkgs.writeShellScriptBin script ''
       set -euo pipefail
 
       if [ "$EUID" -ne 0 ]; then
@@ -26,7 +31,7 @@ in
       fi
 
       local=false
-      reset=false
+      cleanup=false
 
       case "''${1:-}" in
         "")
@@ -34,8 +39,8 @@ in
         --local)
           local=true
           ;;
-        --reset-generations)
-          reset=true
+        --unsafe-cleanup)
+          cleanup=true
           ;;
         *)
           printf '%s\n' "unknown flag" >&2
@@ -53,30 +58,34 @@ in
         [ ! -e "$snapshot" ] || ${pkgs.acl}/bin/setfacl --restore="$snapshot" 2>/dev/null || true
       done
 
-      nix-channel --add https://channels.nixos.org/nixos-unstable nixos
-      nix-channel --update
-
-      if [ "$reset" = true ]; then
-        rm -f /nix/var/nix/profiles/system-*-link
-      fi
-
-      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild boot
+      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild --no-write-lock-file boot
 
       mkdir -p ${perms}
       touch ${perms}/save
+      if [ "$cleanup" = true ]; then
+        touch ${perms}/unsafe-cleanup
+      fi
 
       reboot
     '')
   ];
 
-  systemd.services."${user.scriptPrefix}-cleanup" = {
+  systemd.services.${service} = {
     wantedBy = [ "graphical.target" ];
     after = [ "graphical.target" ];
 
     script = ''
       set -euo pipefail
 
-      ${config.nix.package}/bin/nix-collect-garbage -d
+      if [ -e ${perms}/unsafe-cleanup ]; then
+        rm -f /nix/var/nix/profiles/system-*-link
+        ${config.nix.package}/bin/nix-collect-garbage -d
+        rm -f ${perms}/unsafe-cleanup
+
+        reboot
+        exit 0
+      fi
+
       /run/current-system/bin/switch-to-configuration boot
 
       if [ -e ${perms}/save ]; then

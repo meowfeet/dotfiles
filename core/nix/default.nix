@@ -5,6 +5,7 @@
   documentation.nixos.enable = false;
 
   nix.channel.enable = false;
+  nix.nixPath = [ ];
 
   nix.settings = {
     experimental-features = [

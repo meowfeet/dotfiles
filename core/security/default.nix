@@ -1,4 +1,4 @@
-{ user, ... }:
+{ ... }:
 
 {
   security.polkit.enable = true;
@@ -7,7 +7,7 @@
     wheelNeedsPassword = false;
 
     extraConfig = ''
-      Defaults:${user.name} env_keep += "SSH_AUTH_SOCK"
+      Defaults env_keep += "SSH_AUTH_SOCK"
     '';
   };
 
@@ -15,5 +15,6 @@
     Host *
       StrictHostKeyChecking no
       UserKnownHostsFile /dev/null
+      LogLevel ERROR
   '';
 }
