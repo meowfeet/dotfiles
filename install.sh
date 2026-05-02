@@ -63,5 +63,5 @@ sed -i \
 nix-shell -p nixfmt --run "nixfmt $hardware"
 nixos-install --root /mnt --no-root-passwd
 
-name="$(nix-instantiate --eval --raw /mnt/etc/nixos/profile/settings.nix -A name)"
+name="$(nix-instantiate --eval --raw /mnt/etc/nixos/settings.nix -A name)"
 chown -R --reference="/mnt/home/$name" /mnt/persist/etc/nixos

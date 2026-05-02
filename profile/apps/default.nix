@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -12,12 +12,4 @@
   environment.systemPackages = with pkgs; [
     wl-clipboard
   ];
-
-  environment.persistence.${user.persistPath}.users.${user.name} = {
-    directories = [
-      { directory = ".gnupg"; mode = "0700"; }
-      { directory = ".local/share/keyrings"; mode = "0700"; }
-      { directory = ".ssh"; mode = "0700"; }
-    ];
-  };
 }

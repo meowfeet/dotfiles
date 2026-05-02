@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  settings = import ./profile/settings.nix;
+  settings = import ./settings.nix;
   impermanence = fetchTarball {
     url = "https://github.com/nix-community/impermanence/archive/master.tar.gz";
   };
@@ -11,10 +11,8 @@ in
 
   imports = [
     "${impermanence}/nixos.nix"
+    ./core
     ./hardware-configuration.nix
-    ./modules/audio
-    ./modules/hardware
-    ./modules/network
     ./profile
     ./scripts
   ];
