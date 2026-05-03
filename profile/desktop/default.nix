@@ -22,9 +22,16 @@
 
   hm.programs.kitty.enable = true;
 
+  hm.programs.fuzzel = {
+    enable = true;
+
+    settings.main.default-launch-prefix = "uwsm app -- ";
+  };
+
   hm.services.hyprpaper = {
     enable = true;
     settings = {
+      splash = false;
       wallpaper = [
         {
           monitor = "";
@@ -49,10 +56,11 @@
 
       bind = [
         "$mod, Return, exec, uwsm app -- kitty"
-        "$mod, Q, killactive,"
+        "$mod, Q, forcekillactive,"
       ];
 
       bindr = [
+        "$mod, SUPER_L, exec, pkill fuzzel || uwsm app -- fuzzel"
         "$mod, Z, workspace, 1"
         "$mod, C, workspace, 2"
       ];
