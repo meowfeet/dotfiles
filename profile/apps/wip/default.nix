@@ -3,6 +3,6 @@
 {
   imports = [
     ./chromium.nix
-    ./zed.nix
+    ./discord.nix
   ];
 }

@@ -4,9 +4,11 @@
   hm.programs.git = {
     enable = true;
 
-    userName = user.name;
-    userEmail = user.email;
-    extraConfig.safe.directory = "*";
+    settings = {
+      user.name = user.name;
+      user.email = user.email;
+      safe.directory = "*";
+    };
   };
 
   hm.programs.ssh.matchBlocks.github = {

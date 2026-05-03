@@ -33,10 +33,14 @@
 
       monitor = ",highrr,auto,auto";
 
+      input.accel_profile = "flat";
+
       bind = [
         "$mod, Return, exec, uwsm app -- kitty"
         "$mod, Q, killactive,"
+      ];
 
+      bindr = [
         "$mod, Z, workspace, 1"
         "$mod, C, workspace, 2"
       ];

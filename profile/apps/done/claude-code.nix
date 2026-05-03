@@ -6,6 +6,7 @@
 
     settings = {
       skipDangerousModePermissionPrompt = true;
+      theme = "dark";
     };
   };
 
