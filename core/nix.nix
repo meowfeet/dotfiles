@@ -12,8 +12,6 @@
       "nix-command"
       "flakes"
     ];
-
-    warn-dirty = false;
   };
 
   nix.gc = {

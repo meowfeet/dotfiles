@@ -1,6 +1,10 @@
 { pkgs, user, ... }:
 
 {
+  imports = [
+    ./binds.nix
+  ];
+
   programs.hyprland = {
     enable = true;
     withUWSM = true;
@@ -53,22 +57,6 @@
       monitor = ",highrr,auto,auto";
 
       input.accel_profile = "flat";
-
-      bind = [
-        "$mod, Return, exec, uwsm app -- kitty"
-        "$mod, Q, forcekillactive,"
-      ];
-
-      bindr = [
-        "$mod, SUPER_L, exec, pkill fuzzel || uwsm app -- fuzzel"
-        "$mod, Z, workspace, 1"
-        "$mod, C, workspace, 2"
-      ];
-
-      bindo = [
-        "$mod, Z, movetoworkspace, 1"
-        "$mod, C, movetoworkspace, 2"
-      ];
     };
   };
 }

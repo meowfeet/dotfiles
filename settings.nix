@@ -18,6 +18,12 @@
     ];
   };
 
+  # nvidia only
+  graphics = {
+    primary = "/dev/dri/by-path/pci-0000:01:00.0-card";
+    backup = "/dev/dri/by-path/pci-0000:12:00.0-card";
+  };
+
   persistPath = "/persist";
   scriptPrefix = "nix";
 }
