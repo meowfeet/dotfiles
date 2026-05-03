@@ -22,6 +22,18 @@
 
   hm.programs.kitty.enable = true;
 
+  hm.services.hyprpaper = {
+    enable = true;
+    settings = {
+      wallpaper = [
+        {
+          monitor = "";
+          path = "${./wallpaper.png}";
+        }
+      ];
+    };
+  };
+
   hm.wayland.windowManager.hyprland = {
     enable = true;
     package = null;
