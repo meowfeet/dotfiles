@@ -48,7 +48,7 @@ touch /mnt/persist/.permissions/save
 hardware=/mnt/etc/nixos/hardware-configuration.nix
 nixos-generate-config --root /mnt --show-hardware-config > "$hardware"
 
-version="$(nix eval --quiet --no-write-lock-file --raw /mnt/etc/nixos#nixosConfigurations.nixos.config.system.nixos.release)"
+version="$(nix eval --raw /mnt/etc/nixos#nixosConfigurations.nixos.config.system.nixos.release)"
 
 sed -i \
   -e '/fsType = "tmpfs";/a options = [ "mode=755" ];' \
@@ -60,7 +60,7 @@ sed -i \
   "$hardware"
 
 nix shell nixpkgs#nixfmt -c nixfmt "$hardware"
-nixos-install --no-write-lock-file --no-channel-copy --root /mnt --flake /mnt/etc/nixos#nixos --no-root-passwd
+nixos-install --no-channel-copy --root /mnt --flake /mnt/etc/nixos#nixos --no-root-passwd
 
 name="$(nix eval --raw --file /mnt/etc/nixos/settings.nix name)"
 chown -R --reference="/mnt/home/$name" /mnt/persist/etc/nixos

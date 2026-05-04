@@ -12,18 +12,8 @@
       "nix-command"
       "flakes"
     ];
-  };
 
-  nix.gc = {
-    automatic = true;
-
-    dates = "daily";
-    options = "--delete-older-than 7d";
-  };
-
-  nix.optimise = {
-    automatic = true;
-
-    dates = "daily";
+    auto-optimise-store = true;
+    warn-dirty = false;
   };
 }
