@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export NIX_CONFIG="experimental-features = nix-command flakes"
+export NIX_CONFIG=$'experimental-features = nix-command flakes\nwarn-dirty = false'
 
 git clone https://github.com/meowfeet/dotfiles.git /tmp/nixos
 git -C /tmp/nixos remote set-url --push origin git@github.com:meowfeet/dotfiles.git
