@@ -10,7 +10,7 @@
     enable = true;
 
     userSettings = {
-      languages."Nix".language_servers = [ "nil" "!nixd" ];
+      languages."Nix".language_servers = [ "nixd" "!nil" ];
 
       telemetry = {
         diagnostics = false;
@@ -19,7 +19,7 @@
     };
 
     extraPackages = with pkgs; [
-      nil
+      nixd
       nixfmt
     ];
   };

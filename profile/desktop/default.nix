@@ -27,7 +27,10 @@
     };
 
     window-rules = [
-      { open-floating = false; }
+      {
+        open-floating = false;
+        open-fullscreen = false;
+      }
     ];
   };
 }

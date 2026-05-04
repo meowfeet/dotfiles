@@ -11,5 +11,6 @@
     nvidia-settings = { name = "nvidia-settings"; noDisplay = true; };
     qt5ct           = { name = "qt5ct";           noDisplay = true; };
     qt6ct           = { name = "qt6ct";           noDisplay = true; };
+    "dev.zed.Zed"   = { name = "Zed";             noDisplay = true; };
   };
 }

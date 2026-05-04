@@ -4,24 +4,32 @@
   hm.home.packages = [ pkgs.jq ];
 
   hm.programs.niri.settings.binds = {
-    "Mod+Return".action.spawn = "foot";
-    "Mod+Space".action.spawn-sh = "pkill fuzzel || fuzzel";
-    "Mod+Q".action.close-window = {};
+    "Mod+Return".action.spawn-sh = "pkill fuzzel || fuzzel";
+    "Mod+Backspace".action.spawn = "foot";
+    # "Mod+L".action.spawn-sh = "loginctl lock-session";
 
-    "Mod+D".action.focus-window-up = {};
-    "Mod+Z".action.focus-column-left = {};
-    "Mod+X".action.focus-window-down = {};
-    "Mod+C".action.focus-column-right = {};
+    "Mod+Escape".action.toggle-overview = {};
+    "Mod+X".action.switch-preset-column-width = {};
 
-    "Mod+Alt+D".action.move-window-up = {};
-    "Mod+Alt+Z".action.move-column-left = {};
-    "Mod+Alt+X".action.move-window-down = {};
-    "Mod+Alt+C".action.move-column-right = {};
+    "Mod+MouseMiddle".action.maximize-column = {};
+    "Mod+Shift+MouseMiddle".action.fullscreen-window = {};
+    "Mod+Shift+Alt+MouseMiddle".action.close-window = {};
 
-    "Mod+F".action.maximize-column = {};
+    "Mod+MouseBack".action.focus-window-up = {};
+    "Mod+WheelScrollUp".action.focus-column-left = {};
+    "Mod+MouseForward".action.focus-window-down = {};
+    "Mod+WheelScrollDown".action.focus-column-right = {};
 
-    "Mod+Shift+S".action.screenshot = {};
-    "Mod+Alt+S".action.screenshot-window = {};
+    "Mod+Shift+MouseBack".action.move-window-up = {};
+    "Mod+Shift+WheelScrollUp".action.move-column-left = {};
+    "Mod+Shift+MouseForward".action.move-window-down = {};
+    "Mod+Shift+WheelScrollDown".action.move-column-right = {};
+
+    "Mod+Alt+MouseBack".action.consume-or-expel-window-left = {};
+    "Mod+Alt+MouseForward".action.consume-or-expel-window-right = {};
+
+    "Mod+S".action.screenshot = {};
+    "Mod+Shift+S".action.screenshot-window = {};
 
     "Alt+Tab".action.spawn-sh = ''niri msg action focus-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
     "Mod+Tab".action.spawn-sh = ''niri msg action move-column-to-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
