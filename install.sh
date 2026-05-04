@@ -59,8 +59,8 @@ sed -i \
   -e "/^}/i system.stateVersion = \"$version\";" \
   "$hardware"
 
-nix shell --quiet nixpkgs#nixfmt -c nixfmt "$hardware"
+nix shell nixpkgs#nixfmt -c nixfmt "$hardware"
 nixos-install --no-write-lock-file --no-channel-copy --root /mnt --flake /mnt/etc/nixos#nixos --no-root-passwd
 
-name="$(nix eval --quiet --raw --file /mnt/etc/nixos/settings.nix name)"
+name="$(nix eval --raw --file /mnt/etc/nixos/settings.nix name)"
 chown -R --reference="/mnt/home/$name" /mnt/persist/etc/nixos
