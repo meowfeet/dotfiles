@@ -1,37 +1,27 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
-  hm.home.packages = [ pkgs.jq ];
-
   hm.programs.niri.settings.binds = {
-    "Mod+Return".action.spawn-sh = "pkill fuzzel || fuzzel";
-    "Mod+Backspace".action.spawn = "foot";
-    # "Mod+L".action.spawn-sh = "loginctl lock-session";
+    # added by default: written for clarity
+    # "Mod+MouseLeft".action.toggle-window-floating = {};
 
-    "Mod+Escape".action.toggle-overview = {};
-    "Mod+X".action.switch-preset-column-width = {};
+    "Mod+X".action.maximize-column = {};
+    "Mod+Alt+X".action.fullscreen-window = {};
 
-    "Mod+MouseMiddle".action.maximize-column = {};
-    "Mod+Shift+MouseMiddle".action.fullscreen-window = {};
-    "Mod+Shift+Alt+MouseMiddle".action.close-window = {};
+    "Mod+Space".action.switch-preset-column-width = {};
+    "Mod+MouseMiddle".action.close-window = {};
 
-    "Mod+MouseBack".action.focus-window-up = {};
-    "Mod+WheelScrollUp".action.focus-column-left = {};
-    "Mod+MouseForward".action.focus-window-down = {};
-    "Mod+WheelScrollDown".action.focus-column-right = {};
+    "Mod+MouseBack".action.focus-column-left = {};
+    "Mod+MouseForward".action.focus-column-right = {};
+    "Mod+WheelScrollUp".action.focus-workspace-up = {};
+    "Mod+WheelScrollDown".action.focus-workspace-down = {};
 
-    "Mod+Shift+MouseBack".action.move-window-up = {};
-    "Mod+Shift+WheelScrollUp".action.move-column-left = {};
-    "Mod+Shift+MouseForward".action.move-window-down = {};
-    "Mod+Shift+WheelScrollDown".action.move-column-right = {};
-
-    "Mod+Alt+MouseBack".action.consume-or-expel-window-left = {};
-    "Mod+Alt+MouseForward".action.consume-or-expel-window-right = {};
+    "Mod+Alt+MouseBack".action.move-column-left = {};
+    "Mod+Alt+MouseForward".action.move-column-right = {};
+    "Mod+Alt+WheelScrollUp".action.move-column-to-workspace-up = {};
+    "Mod+Alt+WheelScrollDown".action.move-column-to-workspace-down = {};
 
     "Mod+S".action.screenshot = {};
-    "Mod+Shift+S".action.screenshot-window = {};
-
-    "Alt+Tab".action.spawn-sh = ''niri msg action focus-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
-    "Mod+Tab".action.spawn-sh = ''niri msg action move-column-to-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
+    "Mod+Alt+S".action.screenshot-window = {};
   };
 }

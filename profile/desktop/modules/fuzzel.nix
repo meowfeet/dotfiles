@@ -3,6 +3,10 @@
 {
   hm.programs.fuzzel.enable = true;
 
+  hm.programs.niri.settings.binds = {
+    "Mod+Return".action.spawn-sh = "pkill fuzzel || fuzzel";
+  };
+
   hm.xdg.desktopEntries = {
     foot            = { name = "foot";            noDisplay = true; };
     foot-server     = { name = "foot-server";     noDisplay = true; };

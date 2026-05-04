@@ -7,7 +7,6 @@
   ];
 
   programs.niri.enable = true;
-  hm.programs.foot.enable = true;
 
   hm.programs.niri.settings = {
     prefer-no-csd = true;
