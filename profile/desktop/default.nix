@@ -1,16 +1,19 @@
-{ pkgs, user, ... }:
+{ pkgs, user, theme, ... }:
 
 {
+  imports = [
+    ./theme
+    ./foot.nix
+    ./fuzzel.nix
+  ];
+
   programs.niri.enable = true;
 
   environment.systemPackages = with pkgs; [
-    elephant
-    foot
     jq
     playerctl
     swaybg
     swayosd
-    walker
   ];
 
   services.greetd = {
@@ -29,15 +32,19 @@
     outputs.${user.monitor.name}.mode = {
       inherit (user.monitor) width height refresh;
     };
-    layout.gaps = 4;
+    layout = {
+      gaps = 4;
+      focus-ring = {
+        active.color = theme.colors.accent.hex.value;
+        inactive.color = theme.colors.secondary.hex.value;
+      };
+    };
     hotkey-overlay.skip-at-startup = true;
     gestures.hot-corners.enable = false;
 
     spawn-at-startup = [
-      { command = [ "swaybg" "-i" "${./wallpaper.png}" "-m" "fill" ]; }
+      { command = [ "swaybg" "-i" "${theme.wallpaper}" "-m" "fill" ]; }
       { command = [ "swayosd-server" ]; }
-      { command = [ "elephant" ]; }
-      { command = [ "walker" "--gapplication-service" ]; }
     ];
 
     window-rules = [
@@ -46,7 +53,7 @@
 
     binds = {
       "Mod+Return".action.spawn = "foot";
-      "Mod+Space".action.spawn-sh = "walker -q || walker";
+      "Mod+Space".action.spawn-sh = "pkill fuzzel || fuzzel";
       "Mod+Q".action.close-window = {};
 
       "Mod+D".action.focus-window-up = {};
