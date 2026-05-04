@@ -9,6 +9,7 @@
     jq
     playerctl
     swaybg
+    swayosd
   ];
 
   services.greetd = {
@@ -29,7 +30,7 @@
 
     spawn-at-startup = [
       { command = [ "swaybg" "-i" "${./wallpaper.png}" "-m" "fill" ]; }
-      { command = [ "waybar" ]; }
+      { command = [ "swayosd-server" ]; }
     ];
 
     window-rules = [
@@ -59,36 +60,15 @@
       "Alt+Tab".action.spawn-sh = ''niri msg action focus-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
       "Mod+Tab".action.spawn-sh = ''niri msg action move-column-to-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
 
-      "XF86AudioRaiseVolume".action.spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
-      "XF86AudioLowerVolume".action.spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
-      "XF86AudioMute".action.spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-      "XF86AudioMicMute".action.spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+      "XF86AudioRaiseVolume".action.spawn = [ "swayosd-client" "--output-volume" "+10" "--max-volume" "100" ];
+      "XF86AudioLowerVolume".action.spawn = [ "swayosd-client" "--output-volume" "-10" ];
+      "XF86AudioMute".action.spawn = [ "swayosd-client" "--output-volume" "mute-toggle" ];
+      "XF86AudioMicMute".action.spawn = [ "swayosd-client" "--input-volume" "mute-toggle" ];
 
-      "XF86AudioPlay".action.spawn-sh = "playerctl play-pause";
-      "XF86AudioStop".action.spawn-sh = "playerctl stop";
-      "XF86AudioPrev".action.spawn-sh = "playerctl previous";
-      "XF86AudioNext".action.spawn-sh = "playerctl next";
-    };
-  };
-
-  hm.programs.waybar = {
-    enable = true;
-
-    settings.mainBar = {
-      layer = "top";
-      position = "top";
-
-      modules-center = [ "clock" ];
-      modules-right = [ "wireplumber" ];
-
-      clock.format = "{:%H:%M}";
-
-      wireplumber = {
-        format = "{volume}%";
-        format-muted = "muted";
-        on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        scroll-step = 10;
-      };
+      "XF86AudioPlay".action.spawn = [ "swayosd-client" "--playerctl" "play-pause" ];
+      "XF86AudioStop".action.spawn = [ "swayosd-client" "--playerctl" "stop" ];
+      "XF86AudioPrev".action.spawn = [ "swayosd-client" "--playerctl" "prev" ];
+      "XF86AudioNext".action.spawn = [ "swayosd-client" "--playerctl" "next" ];
     };
   };
 
