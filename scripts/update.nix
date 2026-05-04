@@ -58,7 +58,7 @@ in
         [ ! -e "$snapshot" ] || ${pkgs.acl}/bin/setfacl --restore="$snapshot" 2>/dev/null || true
       done
 
-      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild --no-write-lock-file boot
+      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild --quiet --no-write-lock-file boot
 
       mkdir -p ${perms}
       touch ${perms}/save

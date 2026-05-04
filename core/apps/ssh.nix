@@ -4,13 +4,14 @@
   hm.programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-
-    matchBlocks."*".extraOptions = {
-      StrictHostKeyChecking = "no";
-      UserKnownHostsFile = "/dev/null";
-      LogLevel = "ERROR";
-    };
   };
+
+  programs.ssh.extraConfig = ''
+    Host *
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+      LogLevel ERROR
+  '';
 
   persist.directories = [
     { directory = ".ssh"; mode = "0700"; }
