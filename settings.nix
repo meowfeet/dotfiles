@@ -11,6 +11,14 @@
     variant = "altgr-intl";
   };
 
+  # command: niri msg outputs
+  monitor = {
+    name = "DP-2";
+    width = 1920;
+    height = 1080;
+    refresh = 144.001;
+  };
+
   browser = {
     locales = [
       "da"

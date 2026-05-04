@@ -24,6 +24,10 @@
   hm.programs.niri.settings = {
     prefer-no-csd = true;
     input.keyboard.xkb = user.keyboard;
+    input.mouse.accel-profile = "flat";
+    outputs.${user.monitor.name}.mode = {
+      inherit (user.monitor) width height refresh;
+    };
     layout.gaps = 4;
     hotkey-overlay.skip-at-startup = true;
     gestures.hot-corners.enable = false;
