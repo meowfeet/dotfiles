@@ -62,13 +62,13 @@ in
         [ ! -e "$snapshot" ] || ${pkgs.acl}/bin/setfacl --restore="$snapshot" 2>/dev/null || true
       done
 
-      rebuild_args=""
+      rebuild_args=()
       if [ "$nocache" = true ]; then
-        rebuild_args="--option substitute false"
+        rebuild_args+=(--option substitute false)
       fi
 
       rm -f /etc/nixos/flake.lock
-      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild $rebuild_args boot
+      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild "''${rebuild_args[@]}" boot
 
       ${config.nix.package}/bin/nix-collect-garbage --delete-older-than 7d
 
