@@ -13,5 +13,7 @@
   };
 
   users.mutableUsers = false;
+
+  security.polkit.enable = true;
   security.sudo.wheelNeedsPassword = false;
 }

@@ -1,95 +1,34 @@
-{ pkgs, user, theme, ... }:
+{ user, config, ... }:
 
 {
   imports = [
-    ./theme
-    ./foot.nix
-    ./fuzzel.nix
+    ./binds.nix
+    ./modules
   ];
 
   programs.niri.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    jq
-    playerctl
-    swaybg
-    swayosd
-  ];
-
-  services.greetd = {
-    enable = true;
-
-    settings.default_session = {
-      command = "niri-session";
-      user = user.name;
-    };
-  };
+  hm.programs.foot.enable = true;
+  hm.programs.fuzzel.enable = true;
 
   hm.programs.niri.settings = {
     prefer-no-csd = true;
-    input.keyboard.xkb = user.keyboard;
-    input.mouse.accel-profile = "flat";
-    outputs.${user.monitor.name}.mode = {
-      inherit (user.monitor) width height refresh;
-    };
-    layout = {
-      gaps = 4;
-      focus-ring = {
-        active.color = theme.colors.accent.hex.value;
-        inactive.color = theme.colors.secondary.hex.value;
-      };
-    };
     hotkey-overlay.skip-at-startup = true;
     gestures.hot-corners.enable = false;
 
-    spawn-at-startup = [
-      { command = [ "swaybg" "-i" "${theme.wallpaper}" "-m" "fill" ]; }
-      { command = [ "swayosd-server" ]; }
-    ];
+    input.keyboard.xkb = user.keyboard;
+    input.mouse.accel-profile = "flat";
+
+    outputs.${user.monitor.name}.mode = {
+      inherit (user.monitor) width height refresh;
+    };
+
+    layout.focus-ring = {
+      active.color = config.lib.stylix.colors.withHashtag.base0D;
+      inactive.color = config.lib.stylix.colors.withHashtag.base03;
+    };
 
     window-rules = [
       { open-floating = false; }
     ];
-
-    binds = {
-      "Mod+Return".action.spawn = "foot";
-      "Mod+Space".action.spawn-sh = "pkill fuzzel || fuzzel";
-      "Mod+Q".action.close-window = {};
-
-      "Mod+D".action.focus-window-up = {};
-      "Mod+Z".action.focus-column-left = {};
-      "Mod+X".action.focus-window-down = {};
-      "Mod+C".action.focus-column-right = {};
-
-      "Mod+Alt+D".action.move-window-up = {};
-      "Mod+Alt+Z".action.move-column-left = {};
-      "Mod+Alt+X".action.move-window-down = {};
-      "Mod+Alt+C".action.move-column-right = {};
-
-      "Mod+F".action.maximize-column = {};
-
-      "Mod+Shift+S".action.screenshot = {};
-      "Mod+Alt+S".action.screenshot-window = {};
-
-      "Alt+Tab".action.spawn-sh = ''niri msg action focus-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
-      "Mod+Tab".action.spawn-sh = ''niri msg action move-column-to-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
-
-      "XF86AudioRaiseVolume".action.spawn = [ "swayosd-client" "--output-volume" "+10" "--max-volume" "100" ];
-      "XF86AudioLowerVolume".action.spawn = [ "swayosd-client" "--output-volume" "-10" ];
-      "XF86AudioMute".action.spawn = [ "swayosd-client" "--output-volume" "mute-toggle" ];
-      "XF86AudioMicMute".action.spawn = [ "swayosd-client" "--input-volume" "mute-toggle" ];
-
-      "XF86AudioPlay".action.spawn = [ "swayosd-client" "--playerctl" "play-pause" ];
-      "XF86AudioStop".action.spawn = [ "swayosd-client" "--playerctl" "stop" ];
-      "XF86AudioPrev".action.spawn = [ "swayosd-client" "--playerctl" "prev" ];
-      "XF86AudioNext".action.spawn = [ "swayosd-client" "--playerctl" "next" ];
-    };
-  };
-
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    config.common.default = "*";
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 }
