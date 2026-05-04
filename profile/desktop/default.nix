@@ -6,6 +6,8 @@
   environment.systemPackages = with pkgs; [
     alacritty
     fuzzel
+    jq
+    swaybg
   ];
 
   services.greetd = {
@@ -21,16 +23,20 @@
     prefer-no-csd = true;
     input.keyboard.xkb = user.keyboard;
     layout.gaps = 4;
+    hotkey-overlay.skip-at-startup = true;
+    gestures.hot-corners.enable = false;
+
+    spawn-at-startup = [
+      { command = [ "swaybg" "-i" "${./wallpaper.png}" "-m" "fill" ]; }
+    ];
 
     binds = {
       "Mod+Return".action.spawn = "alacritty";
       "Mod+Q".action.close-window = {};
       "Mod+X".action.spawn-sh = "pkill fuzzel || exec fuzzel";
 
-      "Mod+Z".action.focus-workspace = 1;
-      "Mod+C".action.focus-workspace = 2;
-      "Mod+A".action.move-column-to-workspace = 1;
-      "Mod+D".action.move-column-to-workspace = 2;
+      "Alt+Tab".action.spawn-sh = ''niri msg action focus-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
+      "Mod+Tab".action.spawn-sh = ''niri msg action move-column-to-workspace $((3-$(niri msg --json workspaces|jq -r '.[]|select(.is_focused).idx')))'';
     };
   };
 
