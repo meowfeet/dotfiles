@@ -4,8 +4,9 @@
   programs.niri.enable = true;
 
   environment.systemPackages = with pkgs; [
+    elephant
+    foot
     jq
-    kitty
     playerctl
     swaybg
     swayosd
@@ -35,6 +36,8 @@
     spawn-at-startup = [
       { command = [ "swaybg" "-i" "${./wallpaper.png}" "-m" "fill" ]; }
       { command = [ "swayosd-server" ]; }
+      { command = [ "elephant" ]; }
+      { command = [ "walker" "--gapplication-service" ]; }
     ];
 
     window-rules = [
@@ -42,7 +45,7 @@
     ];
 
     binds = {
-      "Mod+Return".action.spawn = "kitty";
+      "Mod+Return".action.spawn = "foot";
       "Mod+Space".action.spawn-sh = "walker -q || walker";
       "Mod+Q".action.close-window = {};
 
