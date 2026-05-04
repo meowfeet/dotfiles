@@ -12,12 +12,17 @@
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs:
     let
-      inherit (inputs) nixpkgs home-manager impermanence;
+      inherit (inputs) nixpkgs home-manager impermanence niri;
 
       system = "x86_64-linux";
       user = import ./settings.nix;
@@ -33,6 +38,7 @@
         modules = [
           home-manager.nixosModules.default
           impermanence.nixosModules.impermanence
+          niri.nixosModules.niri
 
           (nixpkgs.lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" user.name ])
           (nixpkgs.lib.mkAliasOptionModule [ "persist" ] [ "environment" "persistence" user.persistPath "users" user.name ])

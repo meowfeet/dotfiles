@@ -1,62 +1,43 @@
 { pkgs, user, ... }:
 
 {
-  imports = [
-    ./binds.nix
-  ];
+  programs.niri.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-  };
+  environment.systemPackages = with pkgs; [
+    alacritty
+    fuzzel
+  ];
 
   services.greetd = {
     enable = true;
+
     settings.default_session = {
-      command = "uwsm start hyprland.desktop";
+      command = "niri-session";
       user = user.name;
+    };
+  };
+
+  hm.programs.niri.settings = {
+    prefer-no-csd = true;
+    input.keyboard.xkb = user.keyboard;
+    layout.gaps = 4;
+
+    binds = {
+      "Mod+Return".action.spawn = "alacritty";
+      "Mod+Q".action.close-window = {};
+      "Mod+X".action.spawn-sh = "pkill fuzzel || exec fuzzel";
+
+      "Mod+Z".action.focus-workspace = 1;
+      "Mod+C".action.focus-workspace = 2;
+      "Mod+A".action.move-column-to-workspace = 1;
+      "Mod+D".action.move-column-to-workspace = 2;
     };
   };
 
   xdg.portal = {
     enable = true;
+    xdgOpenUsePortal = true;
+    config.common.default = "*";
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.common.default = [ "hyprland" "gtk" ];
-  };
-
-  hm.programs.kitty.enable = true;
-
-  hm.programs.fuzzel = {
-    enable = true;
-
-    settings.main.default-launch-prefix = "uwsm app -- ";
-  };
-
-  hm.services.hyprpaper = {
-    enable = true;
-    settings = {
-      splash = false;
-      wallpaper = [
-        {
-          monitor = "";
-          path = "${./wallpaper.png}";
-        }
-      ];
-    };
-  };
-
-  hm.wayland.windowManager.hyprland = {
-    enable = true;
-    package = null;
-    portalPackage = null;
-    systemd.enable = false;
-
-    settings = {
-      "$mod" = "SUPER";
-
-      monitor = ",highrr,auto,auto";
-
-      input.accel_profile = "flat";
-    };
   };
 }
