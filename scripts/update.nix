@@ -55,7 +55,7 @@ in
       if [ "$local" = false ]; then
         ${pkgs.git}/bin/git -C /etc/nixos fetch origin
         ${pkgs.git}/bin/git -C /etc/nixos reset --hard origin/master
-        ${pkgs.git}/bin/git -C /etc/nixos clean -fdx
+        ${pkgs.git}/bin/git -C /etc/nixos clean -fdxq
       fi
 
       for snapshot in ${perms}/nix.acl ${perms}/persist.acl; do
