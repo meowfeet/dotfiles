@@ -4,12 +4,12 @@
   programs.niri.enable = true;
 
   environment.systemPackages = with pkgs; [
-    alacritty
-    fuzzel
     jq
+    kitty
     playerctl
     swaybg
     swayosd
+    walker
   ];
 
   services.greetd = {
@@ -42,8 +42,8 @@
     ];
 
     binds = {
-      "Mod+Return".action.spawn = "alacritty";
-      "Mod+Space".action.spawn-sh = "pkill fuzzel || exec fuzzel";
+      "Mod+Return".action.spawn = "kitty";
+      "Mod+Space".action.spawn-sh = "walker -q || walker";
       "Mod+Q".action.close-window = {};
 
       "Mod+D".action.focus-window-up = {};
