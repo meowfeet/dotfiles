@@ -7,8 +7,6 @@
 
     "Mod+Tab".action.toggle-overview = {};
 
-    "Alt+Tab".action.focus-window-previous = {};
-
     "Mod+B".action.spawn = "chromium";
     "Mod+E".action.spawn = "zeditor";
 
