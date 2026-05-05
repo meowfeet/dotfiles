@@ -1,12 +1,13 @@
-{ user, ... }:
+{ user, pkgs, ... }:
 
 {
-  imports = [
-    ./modules
-  ];
+  hm.imports = [ ./modules ];
 
   services.desktopManager.cosmic.enable = true;
+  hm.wayland.desktopManager.cosmic.enable = true;
+
   services.displayManager.cosmic-greeter.enable = true;
+  security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
 
   services.displayManager.autoLogin = {
     enable = true;
@@ -14,4 +15,7 @@
   };
 
   services.xserver.xkb = user.keyboard;
+
+  services.desktopManager.cosmic.showExcludedPkgsWarning = false;
+  environment.cosmic.excludePackages = [ pkgs.cosmic-initial-setup ];
 }
