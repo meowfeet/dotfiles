@@ -7,7 +7,6 @@
 
     "Mod+Tab".action.toggle-overview = {};
     "Alt+Tab".action.switch-preset-column-width = {};
-    "Mod+Escape".action.toggle-keyboard-shortcuts-inhibit = {};
 
     "Mod+MouseMiddle".action.close-window = {};
     "Mod+Shift+MouseBack".action.maximize-column = {};
