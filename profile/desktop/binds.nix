@@ -20,8 +20,16 @@
     "Mod+MouseBack".action.move-column-to-workspace-down = {};
     "Mod+MouseForward".action.move-column-to-workspace-up = {};
 
-    "Mod+S".action.screenshot-window = {};
-    "Mod+Alt+S".action.screenshot-screen = {};
+    "Mod+S".action.focus-workspace-up = {};
+    "Mod+X".action.focus-workspace-down = {};
+
+    # "Mod+S".action.screenshot-window = {};
+    # "Mod+Alt+S".action.screenshot-screen = {};
     "Mod+Shift+S".action.screenshot = {};
+  };
+
+  hm.programs.niri.settings.recent-windows.binds = {
+    "Mod+Z".action.previous-window = {};
+    "Mod+C".action.next-window = {};
   };
 }
