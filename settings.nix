@@ -13,7 +13,7 @@
 
   # command: niri msg outputs
   monitor = {
-    name = "DP-2";
+    name = "DP-1";
     width = 1920;
     height = 1080;
     refresh = 144.001;
