@@ -8,6 +8,7 @@
     ./network.nix
     ./nix.nix
     ./persistence.nix
+    ./scripts
     ./user.nix
   ];
 }

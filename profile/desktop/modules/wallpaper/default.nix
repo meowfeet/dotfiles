@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  wayland.desktopManager.cosmic.wallpapers = [
+  hm.wayland.desktopManager.cosmic.wallpapers = [
     {
       output = "all";
 

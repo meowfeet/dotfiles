@@ -18,11 +18,6 @@
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    cosmic-initial-setup = {
-      url = "github:pop-os/cosmic-initial-setup";
-      flake = false;
-    };
   };
 
   outputs =
@@ -31,11 +26,14 @@
       inherit (inputs) nixpkgs home-manager impermanence cosmic-manager;
 
       system = "x86_64-linux";
+      persistPath = "/persist";
+
       user = import ./settings.nix;
+      lib = import "${cosmic-manager}/lib/extend-lib.nix" { inherit (nixpkgs) lib; };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit system lib;
 
         specialArgs = {
           inherit inputs;
@@ -46,18 +44,18 @@
           impermanence.nixosModules.impermanence
 
           (nixpkgs.lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" user.name ])
-          (nixpkgs.lib.mkAliasOptionModule [ "persist" ] [ "environment" "persistence" user.persistPath "users" user.name ])
+          (nixpkgs.lib.mkAliasOptionModule [ "persist" ] [ "environment" "persistence" persistPath "users" user.name ])
 
           ({ config, ... }: {
             _module.args.user = user // {
               group = config.users.users.${user.name}.group;
+              inherit persistPath;
             };
           })
 
           ./core
           ./hardware-configuration.nix
           ./profile
-          ./scripts
 
           {
             home-manager = {

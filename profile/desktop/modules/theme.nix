@@ -1,8 +1,8 @@
-{ cosmicLib, inputs, ... }:
+{ lib, pkgs, ... }:
 
 {
-  wayland.desktopManager.cosmic.appearance.theme = {
+  hm.wayland.desktopManager.cosmic.appearance.theme = {
     mode = "dark";
-    dark = cosmicLib.cosmic.importRON "${inputs.cosmic-initial-setup}/res/themes/nebula-dark.ron";
+    dark = lib.cosmic.importRON "${pkgs.cosmic-initial-setup}/share/cosmic-themes/nebula-dark.ron";
   };
 }

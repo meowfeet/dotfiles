@@ -7,8 +7,10 @@
 }:
 
 let
-  file = lib.removeSuffix ".nix" (builtins.baseNameOf __curPos.file);
-  script = "${user.scriptPrefix}-${file}";
+  prefix = "nix";
+  file = lib.removeSuffix ".nix" (baseNameOf __curPos.file);
+
+  script = "${prefix}-${file}";
   service = "${script}-cleanup";
 
   perms = "${user.persistPath}/.permissions";

@@ -1,10 +1,19 @@
 { user, pkgs, ... }:
 
 {
-  hm.imports = [ ./modules ];
+  imports = [
+    ./modules
+  ];
 
   services.desktopManager.cosmic.enable = true;
-  hm.wayland.desktopManager.cosmic.enable = true;
+  hm.wayland.desktopManager.cosmic = {
+    enable = true;
+
+    configFile."com.system76.CosmicTerm" = {
+      version = 1;
+      entries.opacity = 90;
+    };
+  };
 
   services.displayManager.cosmic-greeter.enable = true;
   security.pam.services.cosmic-greeter.enableGnomeKeyring = true;

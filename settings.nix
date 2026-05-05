@@ -17,7 +17,4 @@
       "en-US"
     ];
   };
-
-  persistPath = "/persist";
-  scriptPrefix = "nix";
 }
