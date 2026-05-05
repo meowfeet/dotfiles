@@ -11,14 +11,6 @@
     variant = "altgr-intl";
   };
 
-  # command: niri msg outputs
-  monitor = {
-    name = "Acer Technologies Acer KG271 C 0x81400DD2";
-    width = 1920;
-    height = 1080;
-    refresh = 144.001;
-  };
-
   browser = {
     locales = [
       "da"

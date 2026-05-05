@@ -13,11 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +22,7 @@
   outputs =
     inputs:
     let
-      inherit (inputs) nixpkgs home-manager impermanence niri stylix;
+      inherit (inputs) nixpkgs home-manager impermanence stylix;
 
       system = "x86_64-linux";
       user = import ./settings.nix;
@@ -43,7 +38,6 @@
         modules = [
           home-manager.nixosModules.default
           impermanence.nixosModules.impermanence
-          niri.nixosModules.niri
           stylix.nixosModules.stylix
 
           (nixpkgs.lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" user.name ])
