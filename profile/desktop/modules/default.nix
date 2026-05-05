@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./avatar
     ./monitor.nix
     ./mouse.nix
     ./panel.nix
