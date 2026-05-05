@@ -7,7 +7,7 @@
     ./greetd.nix
     ./stylix.nix
     ./swaybg.nix
+    ./swaylock.nix
     ./swayosd.nix
-    ./waylock.nix
   ];
 }
