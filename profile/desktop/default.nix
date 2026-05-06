@@ -6,14 +6,7 @@
   ];
 
   services.desktopManager.cosmic.enable = true;
-  hm.wayland.desktopManager.cosmic = {
-    enable = true;
-
-    configFile."com.system76.CosmicTerm" = {
-      version = 1;
-      entries.opacity = 90;
-    };
-  };
+  hm.wayland.desktopManager.cosmic.enable = true;
 
   services.displayManager.cosmic-greeter.enable = true;
   security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
@@ -27,4 +20,5 @@
 
   services.desktopManager.cosmic.showExcludedPkgsWarning = false;
   environment.cosmic.excludePackages = [ pkgs.cosmic-initial-setup ];
+  hm.wayland.desktopManager.cosmic.panels = [ ];
 }
