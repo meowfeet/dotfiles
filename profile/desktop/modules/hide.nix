@@ -12,14 +12,16 @@
   ];
 
   environment.extraSetup = ''
-    shopt -s nullglob
-    for link in $out/share/applications/*.desktop; do
-      [ -L "$link" ] || continue
-      target=$(readlink -f "$link")
-      rm "$link"
+    if [[ "$out" == *-system-path ]]; then
+      shopt -s nullglob
+      for link in $out/share/applications/*.desktop; do
+        [ -L "$link" ] || continue
+        target=$(readlink -f "$link")
+        rm "$link"
 
-      sed '/^OnlyShowIn=/d;/^NoDisplay=/d' "$target" > "$link"
-      echo 'NoDisplay=true' >> "$link"
-    done
+        sed '/^OnlyShowIn=/d;/^NoDisplay=/d' "$target" > "$link"
+        echo 'NoDisplay=true' >> "$link"
+      done
+    fi
   '';
 }
