@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
@@ -22,4 +22,11 @@
   hardware.bluetooth.enable = false;
 
   services.fstrim.enable = true;
+
+  systemd.services.set-power-profile = rec {
+    wantedBy = [ "power-profiles-daemon.service" ];
+    after = wantedBy;
+
+    script = "${lib.getExe pkgs.power-profiles-daemon} set performance";
+  };
 }

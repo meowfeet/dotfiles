@@ -55,13 +55,13 @@ in
       esac
 
       if [ "$local" = false ]; then
-        ${pkgs.git}/bin/git -C /etc/nixos fetch origin
-        ${pkgs.git}/bin/git -C /etc/nixos reset --hard origin/master
-        ${pkgs.git}/bin/git -C /etc/nixos clean -fdxq
+        ${lib.getExe pkgs.git} -C /etc/nixos fetch origin
+        ${lib.getExe pkgs.git} -C /etc/nixos reset --hard origin/master
+        ${lib.getExe pkgs.git} -C /etc/nixos clean -fdxq
       fi
 
       for snapshot in ${perms}/nix.acl ${perms}/persist.acl; do
-        [ ! -e "$snapshot" ] || ${pkgs.acl}/bin/setfacl --restore="$snapshot" 2>/dev/null || true
+        [ ! -e "$snapshot" ] || ${lib.getExe' pkgs.acl "setfacl"} --restore="$snapshot" 2>/dev/null || true
       done
 
       rebuild_args=()
@@ -70,9 +70,9 @@ in
       fi
 
       rm -f /etc/nixos/flake.lock
-      ${config.system.build.nixos-rebuild}/bin/nixos-rebuild "''${rebuild_args[@]}" boot
+      ${lib.getExe' config.system.build.nixos-rebuild "nixos-rebuild"} "''${rebuild_args[@]}" boot
 
-      ${config.nix.package}/bin/nix-collect-garbage --delete-older-than 7d
+      ${lib.getExe' config.nix.package "nix-collect-garbage"} --delete-older-than 7d
 
       mkdir -p ${perms}
       touch ${perms}/save
@@ -84,16 +84,16 @@ in
     '')
   ];
 
-  systemd.services.${service} = {
+  systemd.services.${service} = rec {
     wantedBy = [ "graphical.target" ];
-    after = [ "graphical.target" ];
+    after = wantedBy;
 
     script = ''
       set -euo pipefail
 
       if [ -e ${perms}/unsafe-cleanup ]; then
         rm -f /nix/var/nix/profiles/system-*-link
-        ${config.nix.package}/bin/nix-collect-garbage -d
+        ${lib.getExe' config.nix.package "nix-collect-garbage"} -d
         rm -f ${perms}/unsafe-cleanup
 
         reboot
@@ -106,12 +106,12 @@ in
         chown root:root ${perms}
         chmod 700 ${perms}
 
-        ${pkgs.acl}/bin/getfacl -R -p /nix > ${perms}/nix.acl.tmp
+        ${lib.getExe' pkgs.acl "getfacl"} -R -p /nix > ${perms}/nix.acl.tmp
         mv -f ${perms}/nix.acl.tmp ${perms}/nix.acl
         chown root:root ${perms}/nix.acl
         chmod 600 ${perms}/nix.acl
 
-        ${pkgs.acl}/bin/getfacl -R -p ${user.persistPath} > ${perms}/persist.acl.tmp
+        ${lib.getExe' pkgs.acl "getfacl"} -R -p ${user.persistPath} > ${perms}/persist.acl.tmp
         mv -f ${perms}/persist.acl.tmp ${perms}/persist.acl
         chown root:root ${perms}/persist.acl
         chmod 600 ${perms}/persist.acl
