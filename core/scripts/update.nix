@@ -58,7 +58,7 @@ in
         ${lib.getExe pkgs.git} -C /etc/nixos fetch origin
         ${lib.getExe pkgs.git} -C /etc/nixos reset --hard origin/master
         ${lib.getExe pkgs.git} -C /etc/nixos clean -fdxq
-        ${lib.getExe pkgs.git} -C /etc/nixos gc --prune=now --quiet
+        ${lib.getExe pkgs.git} -C /etc/nixos gc --aggressive --prune=now --quiet
       fi
 
       for snapshot in ${perms}/nix.acl ${perms}/persist.acl; do
