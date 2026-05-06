@@ -16,8 +16,6 @@
     user = user.name;
   };
 
-  services.xserver.xkb = user.keyboard;
-
   services.desktopManager.cosmic.showExcludedPkgsWarning = false;
   environment.cosmic.excludePackages = [ pkgs.cosmic-initial-setup ];
   hm.wayland.desktopManager.cosmic.panels = [ ];

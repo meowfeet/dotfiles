@@ -26,15 +26,11 @@
     ];
   };
 
-  hm.xdg.mimeApps = {
-    enable = true;
-
-    defaultApplications = lib.genAttrs [
-      "text/html"
-      "x-scheme-handler/http"
-      "x-scheme-handler/https"
-    ] (_: "chromium-browser.desktop");
-  };
+  hm.xdg.mimeApps.defaultApplications = lib.genAttrs [
+    "text/html"
+    "x-scheme-handler/http"
+    "x-scheme-handler/https"
+  ] (_: "chromium-browser.desktop");
 
   programs.chromium = {
     enable = true;

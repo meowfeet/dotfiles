@@ -3,6 +3,7 @@
 {
   i18n.defaultLocale = user.locale;
   time.timeZone = user.timeZone;
+  services.xserver.xkb = user.keyboard;
 
   users.users.${user.name} = {
     isNormalUser = true;
