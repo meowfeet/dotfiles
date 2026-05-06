@@ -23,9 +23,3 @@
   ```sh
   reboot
   ```
-
-- Set keyring password to empty
-
-  ```sh
-  nix shell nixpkgs#seahorse -c seahorse
-  ```
